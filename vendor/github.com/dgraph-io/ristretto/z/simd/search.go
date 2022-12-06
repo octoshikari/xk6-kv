@@ -1,4 +1,4 @@
-// +build 386 arm armbe arm64 mips mipsle mips64p32 mips64p32le ppc ppc64 ppc64le sparc
+// +build !amd64
 
 /*
  * Copyright 2020 Dgraph Labs, Inc. and Contributors
@@ -20,7 +20,7 @@ package simd
 
 // Search uses the Clever search to find the correct key.
 func Search(xs []uint64, k uint64) int16 {
-	if len(xs) < 8 {
+	if len(xs) < 8 || (len(xs) % 8 != 0) {
 		return Naive(xs, k)
 	}
 	var twos, pk [4]uint64
